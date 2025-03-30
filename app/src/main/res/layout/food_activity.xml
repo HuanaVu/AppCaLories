@@ -3,22 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAppDarkGrey"
+    android:backgroundTint="#1D1C1C"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@android:color/background_light">
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:title="AppCalorie"
-        titleTextColor="@android:color/white"/>    <androidx.cardview.widget.CardView
+    android:padding="16dp">
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
+        android:padding="16dp"
+        app:cardBackgroundColor="#716F6F"
         app:cardCornerRadius="12dp"
-        app:cardElevation="6dp"
-        android:padding="16dp">
+        app:cardElevation="6dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,11 +26,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="10dp"
                 android:text="Danh mục thức ăn"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:layout_gravity="center_horizontal"
-                android:paddingBottom="10dp" />
+                android:textStyle="bold" />
 
             <!-- Nhập tên món ăn -->
             <EditText
@@ -67,8 +64,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:gravity="center"
+                android:orientation="horizontal"
                 android:paddingTop="10dp">
 
                 <Button
@@ -107,8 +104,9 @@
     <ListView
         android:id="@+id/listViewFood"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@android:color/darker_gray"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@android:color/background_dark"
         android:dividerHeight="1dp"
         android:paddingTop="10dp" />
 </LinearLayout>

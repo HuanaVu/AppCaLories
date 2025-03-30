@@ -3,45 +3,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:title="AppCalorie"
-        titleTextColor="@android:color/white"/>
+    android:padding="20dp"
+    android:background="#F4F4F4">
+
     <EditText
         android:id="@+id/edt_weight"
         android:layout_width="match_parent"
-        android:layout_height="63dp"
+        android:layout_height="56dp"
         android:hint="Nhập cân nặng (kg)"
-        android:inputType="numberDecimal" />
+        android:inputType="numberDecimal"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:textColor="#333"
+        android:textColorHint="#888"
+        android:textSize="16sp"/>
 
     <EditText
         android:id="@+id/edt_height"
         android:layout_width="match_parent"
-        android:layout_height="73dp"
-        android:layout_marginTop="8dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="12dp"
         android:hint="Nhập chiều cao (cm)"
-        android:inputType="numberDecimal" />
+        android:inputType="numberDecimal"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:textColor="#333"
+        android:textColorHint="#888"
+        android:textSize="16sp"/>
 
     <Spinner
         android:id="@+id/spn_gender"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:layout_marginTop="8dp" />
+        android:layout_height="48dp"
+        android:layout_marginTop="12dp"/>
 
     <Spinner
         android:id="@+id/spn_goal"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="12dp"/>
 
     <Button
         android:id="@+id/btn_save_profile"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:text="Lưu hồ sơ"
-        android:layout_marginTop="16dp"/>
+        android:textColor="#FFF"
+        android:textSize="16sp"
+        android:layout_marginTop="20dp"/>
 </LinearLayout>

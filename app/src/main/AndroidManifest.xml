@@ -25,23 +25,25 @@
 
         <activity
             android:name=".RegisterActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:configChanges="uiMode"/>
         <activity
             android:name=".ForgotPasswordActivity"
-            android:exported="true" />
+            android:exported="true" android:configChanges="uiMode"
+            />
         <activity
             android:name=".LoginActivity"
-            android:exported="true" />
+            android:exported="true" android:configChanges="uiMode"/>
         <activity
             android:name=".HomeActivity"
-            android:exported="true" />
+            android:exported="true" android:configChanges="uiMode"/>
         <activity
             android:name=".ProfileActivity"
-            android:exported="true" />
+            android:exported="true" android:configChanges="uiMode"/>
         <activity android:name=".ProfileDetailActivity"
-            android:exported="true" />
+            android:exported="true" android:configChanges="uiMode"/>
         <activity android:name=".FoodActivity"
-            android:exported="true" />
+            android:exported="true" android:configChanges="uiMode"/>
     </application>
 
 </manifest>
