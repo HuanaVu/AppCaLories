@@ -27,6 +27,7 @@
         android:id="@+id/btnSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Thêm món ăn"/>
+        android:text="Thêm món ăn"
+        android:backgroundTint="@color/lavender"/>
 
 </LinearLayout>

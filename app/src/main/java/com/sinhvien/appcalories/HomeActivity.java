@@ -24,6 +24,9 @@ import com.google.firebase.database.*;
 import com.sinhvien.appcalories.models.Food;
 import java.util.ArrayList;
 import java.util.List;
+import android.graphics.PorterDuff;
+import androidx.core.content.ContextCompat;
+import android.widget.ProgressBar;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "HomeActivity";
@@ -35,6 +38,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private TextView[] txtCalMeals;
     private Button[] btnChonMeals;
+    private ProgressBar progressCalories;
+    private TextView txtCaloriesConsumed, txtCaloriesLeft, txtPercentage;
+    private int totalCaloriesGoal = 2000; // Có thể lấy từ Firebase
 
     // Firebase
     private DatabaseReference databaseReference;
@@ -75,8 +81,39 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         for (int i = 0; i < 4; i++) {
             txtCalMeals[i] = findViewById(txtCalIds[i]);
             btnChonMeals[i] = findViewById(btnChonIds[i]);
-            txtCalMeals[i].setText("0"); // Initialize with 0 calories
+            txtCalMeals[i].setText("0% kcal"); // Initialize with 0 calories
         }
+        progressCalories = findViewById(R.id.progress_calories);
+        txtCaloriesConsumed = findViewById(R.id.txt_calories_consumed);
+        txtCaloriesLeft = findViewById(R.id.txt_calories_left);
+        txtPercentage = findViewById(R.id.txt_percentage);
+    }
+    private void updateCaloriesProgress(int consumedCalories) {
+        // Tính toán giá trị
+        int remaining = totalCaloriesGoal - consumedCalories;
+        int progress = (int) (((float)consumedCalories / totalCaloriesGoal) * 100);
+
+        // Cập nhật ProgressBar
+        progressCalories.setProgress(progress);
+
+        // Đổi màu nếu vượt quá 100%
+        if (progress > 100) {
+            progressCalories.getProgressDrawable().setColorFilter(
+                    ContextCompat.getColor(this, R.color.warning_red),
+                    PorterDuff.Mode.SRC_IN
+            );
+        } else {
+            progressCalories.getProgressDrawable().setColorFilter(
+                    ContextCompat.getColor(this, R.color.progress_foreground),
+                    PorterDuff.Mode.SRC_IN
+            );
+        }
+
+        // Cập nhật text
+        txtCaloriesConsumed.setText("Đã ăn: " + consumedCalories + " kcal");
+        txtCaloriesLeft.setText("Còn lại: " + remaining + " kcal");
+        txtPercentage.setText(progress + "%");
+        txtCalTotal.setText(consumedCalories + "/" + totalCaloriesGoal + " kcal");
     }
 
     private void setupNavigation() {
@@ -180,7 +217,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 Log.e(TAG, "Error parsing calorie value", e);
             }
         }
-        txtCalTotal.setText(String.format("Tổng Calories: %d kcal", totalCalories));
+        updateCaloriesProgress(totalCalories);
     }
 
     private void checkUserProfile(String userId) {
@@ -205,6 +242,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
                     float bmi = calculateBMI(canNang, chieuCao);
                     int caloriesTarget = calculateCalories(canNang, chieuCao, mucTieu);
+
+                    // Các dòng mới thêm
+                    totalCaloriesGoal = caloriesTarget;
+                    updateCaloriesProgress(totalCalories);
 
                     txtBMI.setText(String.format("BMI: %.1f", bmi));
                     txtGoalToday.setText(String.format("Mục tiêu hôm nay: %d kcal", caloriesTarget));

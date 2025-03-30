@@ -50,5 +50,6 @@
         android:text="Lưu hồ sơ"
         android:textColor="#FFF"
         android:textSize="16sp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/lavender"/>
 </LinearLayout>

@@ -16,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/lavender"
             android:title="AppCalorie"
             app:titleTextColor="@android:color/white"/>
 
@@ -49,6 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Tạo hồ sơ"
+                    android:backgroundTint="@color/lavender"
                     android:layout_marginTop="16dp"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -86,35 +87,100 @@
                     android:textStyle="bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
             android:id="@+id/card_total"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_margin="16dp"
             app:cardCornerRadius="12dp"
             app:cardElevation="4dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <TextView
-                    android:text="Tổng Calories"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                <!-- Dòng 1: Tiêu đề và tổng số -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:weightSum="1">
 
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:text="Tổng Calories"
+                        android:textSize="18sp"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/txtCalTotal"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:gravity="end"
+                        android:text="0/2000 kcal"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+
+                <!-- Dòng 2: Progress Bar -->
+                <ProgressBar
+                    android:id="@+id/progress_calories"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="12dp"
+                    android:layout_marginTop="12dp"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/custom_progress"/>
+
+                <!-- Dòng 3: Thông tin chi tiết -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/txt_calories_consumed"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:text="Đã ăn: 0 kcal"
+                        android:textColor="#757575"
+                        android:textSize="14sp"/>
+
+                    <TextView
+                        android:id="@+id/txt_calories_left"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:gravity="end"
+                        android:text="Còn lại: 2000 kcal"
+                        android:textColor="#757575"
+                        android:textSize="14sp"/>
+                </LinearLayout>
+
+                <!-- Dòng 4: Phần trăm -->
                 <TextView
-                    android:id="@+id/txtCalTotal"
-                    android:text="Calories: 0 kcal"
-                    android:textSize="16sp"
+                    android:id="@+id/txt_percentage"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="4dp"
+                    android:text="0%"
+                    android:textColor="#4CAF50"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
         <!-- Bữa ăn -->
         <ScrollView
             android:layout_width="match_parent"
@@ -129,12 +195,13 @@
                 <!-- Tiêu đề -->
                 <TextView
                     android:id="@+id/txtTitle"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Lựa chọn bữa ăn"
                     android:textSize="22sp"
                     android:textStyle="bold"
-                    android:gravity="center"/>
+                    android:gravity="center"
+                    android:layout_marginBottom="16dp"/>
 
                 <!-- CardView Bữa sáng -->
                 <androidx.cardview.widget.CardView
@@ -148,32 +215,48 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:padding="16dp"
-                        android:orientation="vertical">
+                        android:gravity="center_vertical"
+                        android:weightSum="10">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:padding="2dp"
+                            android:src="@drawable/sunset"
+                            />
 
                         <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
                             android:text="Bữa sáng"
-                            android:textSize="18sp"
+                            android:textSize="15sp"
                             android:textStyle="bold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_weight="3" />
 
                         <TextView
                             android:id="@+id/txtCalSang"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
                             android:text="Calories: 0 kcal"
-                            android:textSize="16sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:textSize="15sp"
+                            android:layout_weight="4" />
 
                         <Button
                             android:id="@+id/btnChonSang"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/lavender"
                             android:text="Chọn món ăn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:textSize="12sp"
+                            android:layout_weight="3" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- Các CardView khác tương tự -->
+                <!-- CardView Bữa trưa -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_trua"
                     android:layout_width="match_parent"
@@ -185,31 +268,47 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:padding="16dp"
-                        android:orientation="vertical">
+                        android:gravity="center_vertical"
+                        android:weightSum="10">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:padding="2dp"
+                            android:src="@drawable/sunshine" />
 
                         <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
                             android:text="Bữa trưa"
-                            android:textSize="18sp"
+                            android:textSize="15sp"
                             android:textStyle="bold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_weight="3" />
 
                         <TextView
                             android:id="@+id/txtCalTrua"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
                             android:text="Calories: 0 kcal"
-                            android:textSize="16sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:textSize="15sp"
+                            android:layout_weight="4" />
 
                         <Button
                             android:id="@+id/btnChonTrua"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/lavender"
                             android:text="Chọn món ăn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:textSize="12sp"
+                            android:layout_weight="3" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
+                <!-- CardView Bữa chiều -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_chieu"
                     android:layout_width="match_parent"
@@ -221,31 +320,48 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:padding="16dp"
-                        android:orientation="vertical">
+                        android:gravity="center_vertical"
+                        android:weightSum="10">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:padding="2dp"
+                            android:src="@drawable/ocean"
+                            />
 
                         <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
                             android:text="Bữa chiều"
-                            android:textSize="18sp"
+                            android:textSize="15sp"
                             android:textStyle="bold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_weight="3" />
 
                         <TextView
                             android:id="@+id/txtCalChieu"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
                             android:text="Calories: 0 kcal"
-                            android:textSize="16sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:textSize="15sp"
+                            android:layout_weight="4" />
 
                         <Button
                             android:id="@+id/btnChonChieu"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/lavender"
                             android:text="Chọn món ăn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:textSize="12sp"
+                            android:layout_weight="3" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
+                <!-- CardView Bữa tối -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_toi"
                     android:layout_width="match_parent"
@@ -257,34 +373,48 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:padding="16dp"
-                        android:orientation="vertical">
+                        android:gravity="center_vertical"
+                        android:weightSum="10">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:padding="2dp"
+                            android:src="@drawable/moon"
+               />
 
                         <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
                             android:text="Bữa tối"
-                            android:textSize="18sp"
+                            android:textSize="15sp"
                             android:textStyle="bold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_weight="3" />
 
                         <TextView
                             android:id="@+id/txtCalToi"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:padding="8dp"
                             android:text="Calories: 0 kcal"
-                            android:textSize="16sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:textSize="15sp"
+                            android:layout_weight="4" />
 
                         <Button
                             android:id="@+id/btnChonToi"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="@color/lavender"
                             android:text="Chọn món ăn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:textSize="12sp"
+                            android:layout_weight="3" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
-
             </LinearLayout>
         </ScrollView>
-
 
         <FrameLayout
             android:id="@+id/content_frame"
@@ -301,4 +431,3 @@
         app:menu="@menu/navigation_menu"
         app:headerLayout="@layout/nav_header"/>
 </androidx.drawerlayout.widget.DrawerLayout>
-
