@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/background_light">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="6dp"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Tiêu đề -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Danh mục thức ăn"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="10dp" />
+
+            <!-- Nhập tên món ăn -->
+            <EditText
+                android:id="@+id/edtFoodName"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@android:drawable/editbox_background"
+                android:hint="Tên món ăn"
+                android:inputType="text"
+                android:padding="10dp" />
+
+            <!-- Nhập số calo -->
+            <EditText
+                android:id="@+id/edtFoodCalories"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@android:drawable/editbox_background"
+                android:hint="Calo (kcal)"
+                android:inputType="number"
+                android:padding="10dp" />
+
+            <!-- Chọn danh mục món ăn -->
+            <Spinner
+                android:id="@+id/spinnerCategory"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@android:drawable/editbox_background"
+                android:padding="10dp" />
+
+            <!-- Các nút chức năng -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:paddingTop="10dp">
+
+                <Button
+                    android:id="@+id/btnAdd"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="#651FFF"
+                    android:text="Thêm"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:id="@+id/btnUpdate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#651FFF"
+                    android:text="Sửa"
+                    android:textColor="@android:color/white" />
+
+                <Button
+                    android:id="@+id/btnDelete"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#651FFF"
+                    android:text="Xóa"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Danh sách thức ăn -->
+    <ListView
+        android:id="@+id/listViewFood"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp"
+        android:paddingTop="10dp" />
+</LinearLayout>

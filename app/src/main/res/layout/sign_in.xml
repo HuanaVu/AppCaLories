@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="24dp"
+    android:background="@android:color/white">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dang Ky"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="24dp" />
+
+    <EditText
+        android:id="@+id/edtEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nhap email"
+        android:inputType="textEmailAddress"
+        android:padding="12dp"
+        android:background="@android:color/darker_gray"
+        android:textColorHint="@android:color/white"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/edtPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nhap mat khau"
+        android:inputType="textPassword"
+        android:padding="12dp"
+        android:background="@android:color/darker_gray"
+        android:textColorHint="@android:color/white"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/edtConfirmPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nhap lai mat khau"
+        android:inputType="textPassword"
+        android:padding="12dp"
+        android:background="@android:color/darker_gray"
+        android:textColorHint="@android:color/white"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/btnSignUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dang ky"
+        android:backgroundTint="@android:color/holo_blue_dark"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/txtLogin"
+        android:layout_width="220dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:text="Da co tai khoan? Dang nhap"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="16sp" />
+
+</LinearLayout>

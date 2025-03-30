@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/txt_weight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cân nặng: "
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/txt_height"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chiều cao: "
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/txt_gender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Giới tính: "
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/txt_goal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mục tiêu: "
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btn_edit_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chỉnh sửa hồ sơ"
+        android:layout_marginTop="16dp" />
+    <Button
+        android:id="@+id/btn_back_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Quay về Trang chủ"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>

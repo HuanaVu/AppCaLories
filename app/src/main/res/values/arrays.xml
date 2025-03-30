@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="gender_array">
+        <item>Nam</item>
+        <item>Nữ</item>
+    </string-array>
+
+    <string-array name="goal_array">
+        <item>Duy trì cân nặng</item>
+        <item>Giảm cân</item>
+        <item>Tăng cân</item>
+    </string-array>
+</resources>

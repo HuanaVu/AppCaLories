@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">AppCaLories</string>
+    <string name="navigation_drawer_open">Mở menu</string>
+    <string name="navigation_drawer_close">Đóng menu</string>
+    <string-array name="food_categories">
+        <item>Buổi sáng</item>
+        <item>Buổi trưa</item>
+        <item>Buổi chiều</item>
+        <item>Buổi tối</item>
+    </string-array>
+</resources>

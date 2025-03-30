@@ -1,0 +1,32 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/edtFoodName"
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:hint="Tên món ăn" />
+
+    <EditText
+        android:id="@+id/edtCalories"
+        android:layout_width="match_parent"
+        android:layout_height="67dp"
+        android:hint="Lượng calo (kcal)"
+        android:inputType="number" />
+
+    <Spinner
+        android:id="@+id/spinCategory"
+        android:layout_width="match_parent"
+        android:layout_height="63dp" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Thêm món ăn"/>
+
+</LinearLayout>
