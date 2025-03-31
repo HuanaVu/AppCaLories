@@ -181,6 +181,7 @@
         </androidx.cardview.widget.CardView>
         <!-- Bữa ăn -->
         <ScrollView
+
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true">
@@ -261,7 +262,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginTop="8dp"/>
+                        android:layout_marginTop="90dp"/>
                 </androidx.cardview.widget.CardView>
 
                 <!-- CardView Bữa trưa -->
@@ -324,7 +325,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginTop="8dp"/>
+                        android:layout_marginTop="90dp"/>
                 </androidx.cardview.widget.CardView>
 
                 <!-- CardView Bữa chiều -->
@@ -387,7 +388,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginTop="8dp"/>
+                        android:layout_marginTop="90dp"/>
                 </androidx.cardview.widget.CardView>
 
                 <!-- CardView Bữa tối -->
@@ -450,10 +451,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginTop="8dp"/>
+                        android:layout_marginTop="90dp"/>
                 </androidx.cardview.widget.CardView>
             </LinearLayout>
-        </ScrollView>
+        </ScrollView
+    >
 
         <FrameLayout
             android:id="@+id/content_frame"
