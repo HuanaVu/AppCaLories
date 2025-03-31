@@ -4,22 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.sinhvien.appcalories.models.Food;
-
-import java.util.List;
-
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.sinhvien.appcalories.models.Food;
 
 import java.util.List;
 
@@ -47,11 +36,13 @@ public class FoodAdapter extends ArrayAdapter<Food> {
 
         TextView txtName = convertView.findViewById(R.id.txtFoodName);
         TextView txtCalories = convertView.findViewById(R.id.txtFoodCalories);
+        TextView txtQuantity = convertView.findViewById(R.id.txtDefaultQuantity);
         ImageButton btnEdit = convertView.findViewById(R.id.btnEdit);
         ImageButton btnDelete = convertView.findViewById(R.id.btnDelete);
 
         txtName.setText(food.getTenMon());
-        txtCalories.setText(food.getCalories() + " kcal");
+        txtCalories.setText(food.getCalories() + " cal/100g");
+        txtQuantity.setText("Mặc định: " + food.getDefaultQuantity() + "g");
 
         btnEdit.setOnClickListener(v -> listener.onEdit(food));
         btnDelete.setOnClickListener(v -> listener.onDelete(food));
