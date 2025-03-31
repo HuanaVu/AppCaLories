@@ -51,8 +51,17 @@
                 android:hint="Calo (kcal)"
                 android:inputType="number"
                 android:padding="10dp" />
-
+            <EditText
+                android:id="@+id/edtDefaultQuantity"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@android:drawable/editbox_background"
+                android:hint="Khối lượng(g)"
+                android:inputType="number"
+                android:padding="10dp"
+                android:visibility="gone" />
             <!-- Chọn danh mục món ăn -->
+
             <Spinner
                 android:id="@+id/spinnerCategory"
                 android:layout_width="match_parent"

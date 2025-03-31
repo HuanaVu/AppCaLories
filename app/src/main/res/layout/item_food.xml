@@ -28,6 +28,13 @@
             android:text="Calories: 0 kcal"
             android:textSize="14sp"
             android:textColor="@android:color/darker_gray"/>
+        <TextView
+            android:id="@+id/txtDefaultQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Khối lượng(g): 0g"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"/>
 
         <LinearLayout
             android:layout_width="match_parent"

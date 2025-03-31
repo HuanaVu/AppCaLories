@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -22,8 +25,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 import com.sinhvien.appcalories.models.Food;
+import com.sinhvien.appcalories.models.SelectedFood;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "HomeActivity";
@@ -33,7 +39,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private Button btnCreateProfile;
     private CardView cardBMIInfo;
     private DrawerLayout drawerLayout;
-    private TextView[] txtCalMeals;
+    private LinearLayout[] mealContainers;
     private Button[] btnChonMeals;
 
     // Firebase
@@ -42,6 +48,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     // Data
     private int totalCalories = 0;
+    private int caloriesTarget = 0;
+    private Map<String, List<SelectedFood>> selectedFoodsMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +59,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setupNavigation();
         setupMealSelection();
 
+        selectedFoodsMap = new HashMap<>();
+        String[] categories = {"Bữa sáng", "Bữa trưa", "Bữa chiều", "Bữa tối"};
+        for (String category : categories) {
+            selectedFoodsMap.put(category, new ArrayList<>());
+        }
+
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != null) {
             checkUserProfile(user.getUid());
         }
     }
+
     private void initViews() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -67,15 +82,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         cardBMIInfo = findViewById(R.id.card_bmi_info);
         btnCreateProfile = findViewById(R.id.btn_create_profile);
         btnCreateProfile.setVisibility(View.GONE);
-        // Initialize meal views
-        int[] txtCalIds = {R.id.txtCalSang, R.id.txtCalTrua, R.id.txtCalChieu, R.id.txtCalToi};
+
+        // Initialize meal containers and buttons
+        int[] containerIds = {R.id.container_sang, R.id.container_trua, R.id.container_chieu, R.id.container_toi};
         int[] btnChonIds = {R.id.btnChonSang, R.id.btnChonTrua, R.id.btnChonChieu, R.id.btnChonToi};
-        txtCalMeals = new TextView[4];
+
+        mealContainers = new LinearLayout[4];
         btnChonMeals = new Button[4];
+
         for (int i = 0; i < 4; i++) {
-            txtCalMeals[i] = findViewById(txtCalIds[i]);
+            mealContainers[i] = findViewById(containerIds[i]);
             btnChonMeals[i] = findViewById(btnChonIds[i]);
-            txtCalMeals[i].setText("0"); // Initialize with 0 calories
         }
     }
 
@@ -102,11 +119,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         for (int i = 0; i < 4; i++) {
             int finalI = i;
             btnChonMeals[i].setOnClickListener(v ->
-                    showFoodSelectionDialog(categories[finalI], txtCalMeals[finalI]));
+                    showFoodSelectionDialog(categories[finalI]));
         }
     }
 
-    private void showFoodSelectionDialog(String category, TextView targetTextView) {
+    private void showFoodSelectionDialog(String category) {
         DatabaseReference foodRef = FirebaseDatabase.getInstance().getReference("Foods");
         Query query = foodRef.orderByChild("category").equalTo(category);
 
@@ -119,7 +136,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     try {
                         Food food = dataSnapshot.getValue(Food.class);
                         if (food != null) {
-                            // Ensure ID is set (for manual entries)
                             if (food.getId() == null) {
                                 food.setId(dataSnapshot.getKey());
                             }
@@ -137,7 +153,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     return;
                 }
 
-                showFoodDialog(foodList, targetTextView);
+                showMultiSelectFoodDialog(foodList, category);
             }
 
             @Override
@@ -150,37 +166,184 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    private void showFoodDialog(List<Food> foodList, TextView targetTextView) {
+    private void showMultiSelectFoodDialog(List<Food> foodList, String category) {
+        boolean[] checkedItems = new boolean[foodList.size()];
         String[] foodNames = new String[foodList.size()];
+
         for (int i = 0; i < foodList.size(); i++) {
             Food food = foodList.get(i);
-            foodNames[i] = String.format("%s (%d cal)", food.getTenMon(), food.getCalories());
+            foodNames[i] = String.format("%s (%d cal/100g)", food.getTenMon(), food.getCalories());
         }
 
-        new AlertDialog.Builder(this)
-                .setTitle("Chọn món ăn")
-                .setItems(foodNames, (dialog, which) -> {
-                    int selectedCalories = foodList.get(which).getCalories();
-                    targetTextView.setText(String.valueOf(selectedCalories));
-                    calculateTotalCalories();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Chọn món ăn cho " + category)
+                .setMultiChoiceItems(foodNames, checkedItems, (dialog, which, isChecked) -> {
+                    // Handle item selection
+                })
+                .setPositiveButton("Xác nhận", (dialog, which) -> {
+                    // Get selected foods
+                    AlertDialog alertDialog = (AlertDialog) dialog;
+                    for (int i = 0; i < checkedItems.length; i++) {
+                        if (checkedItems[i]) {
+                            showQuantityDialog(foodList.get(i), category);
+                        }
+                    }
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
+    }
+    private void showQuantityDialog(Food food, String category) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_food_quantity, null);
+
+        TextView txtFoodName = dialogView.findViewById(R.id.txt_food_name);
+        TextView txtCalPer100g = dialogView.findViewById(R.id.txt_cal_per_100g);
+        EditText edtQuantity = dialogView.findViewById(R.id.edt_quantity);
+
+        txtFoodName.setText(food.getTenMon());
+        txtCalPer100g.setText(String.format("%d cal/100g", food.getCalories()));
+        edtQuantity.setText("100"); // Default quantity
+
+        builder.setView(dialogView)
+                .setTitle("Nhập khối lượng")
+                .setPositiveButton("Thêm", (dialog, which) -> {
+                    try {
+                        int quantity = Integer.parseInt(edtQuantity.getText().toString());
+                        if (quantity <= 0) {
+                            Toast.makeText(this, "Khối lượng phải lớn hơn 0", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        addFoodToMeal(food, category, quantity);
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(this, "Vui lòng nhập số hợp lệ", Toast.LENGTH_SHORT).show();
+                    }
                 })
                 .setNegativeButton("Hủy", null)
                 .show();
     }
 
+    private void addFoodToMeal(Food food, String category, int quantity) {
+        SelectedFood selectedFood = new SelectedFood(food, quantity);
+        selectedFoodsMap.get(category).add(selectedFood);
+        updateMealUI(category);
+        calculateTotalCalories();
+    }
+
+    private void updateMealUI(String category) {
+        int containerIndex = getContainerIndex(category);
+        if (containerIndex == -1) return;
+
+        LinearLayout container = mealContainers[containerIndex];
+        container.removeAllViews();
+
+        List<SelectedFood> selectedFoods = selectedFoodsMap.get(category);
+        int mealCalories = 0;
+
+        for (SelectedFood selectedFood : selectedFoods) {
+            View foodItemView = LayoutInflater.from(this).inflate(R.layout.item_selected_food, container, false);
+            TextView txtFoodName = foodItemView.findViewById(R.id.txt_food_name);
+            TextView txtQuantity = foodItemView.findViewById(R.id.txt_quantity);
+            TextView txtTotalCal = foodItemView.findViewById(R.id.txt_total_cal);
+            Button btnEdit = foodItemView.findViewById(R.id.btn_edit);
+            Button btnRemove = foodItemView.findViewById(R.id.btn_remove);
+
+            int calories = (selectedFood.getFood().getCalories() * selectedFood.getQuantity()) / 100;
+            mealCalories += calories;
+
+            txtFoodName.setText(selectedFood.getFood().getTenMon());
+            txtQuantity.setText(String.format("%dg", selectedFood.getQuantity()));
+            txtTotalCal.setText(String.format("%d cal", calories));
+            btnEdit.setOnClickListener(v -> showEditDialog(selectedFood, category));
+            btnRemove.setOnClickListener(v -> removeFood(selectedFood, category));
+
+            container.addView(foodItemView);
+        }
+
+        // Update meal summary
+        TextView txtCalMeal = getMealCalorieTextView(containerIndex);
+        if (txtCalMeal != null) {
+            txtCalMeal.setText(String.format("%d cal", mealCalories));
+        }
+    }
+
+    private void showEditDialog(SelectedFood selectedFood, String category) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_food_quantity, null);
+
+        TextView txtFoodName = dialogView.findViewById(R.id.txt_food_name);
+        TextView txtCalPer100g = dialogView.findViewById(R.id.txt_cal_per_100g);
+        EditText edtQuantity = dialogView.findViewById(R.id.edt_quantity);
+
+        txtFoodName.setText(selectedFood.getFood().getTenMon());
+        txtCalPer100g.setText(String.format("%d cal/100g", selectedFood.getFood().getCalories()));
+        edtQuantity.setText(String.valueOf(selectedFood.getQuantity()));
+
+        builder.setView(dialogView)
+                .setTitle("Chỉnh sửa khối lượng")
+                .setPositiveButton("Lưu", (dialog, which) -> {
+                    try {
+                        int newQuantity = Integer.parseInt(edtQuantity.getText().toString());
+                        if (newQuantity <= 0) {
+                            Toast.makeText(this, "Khối lượng phải lớn hơn 0", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        selectedFood.setQuantity(newQuantity);
+                        updateMealUI(category);
+                        calculateTotalCalories();
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(this, "Vui lòng nhập số hợp lệ", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
+    }
+
+    private void removeFood(SelectedFood selectedFood, String category) {
+        selectedFoodsMap.get(category).remove(selectedFood);
+        updateMealUI(category);
+        calculateTotalCalories();
+    }
+
+    private int getContainerIndex(String category) {
+        switch (category) {
+            case "Bữa sáng": return 0;
+            case "Bữa trưa": return 1;
+            case "Bữa chiều": return 2;
+            case "Bữa tối": return 3;
+            default: return -1;
+        }
+    }
+
+    private TextView getMealCalorieTextView(int containerIndex) {
+        switch (containerIndex) {
+            case 0: return findViewById(R.id.txtCalSang);
+            case 1: return findViewById(R.id.txtCalTrua);
+            case 2: return findViewById(R.id.txtCalChieu);
+            case 3: return findViewById(R.id.txtCalToi);
+            default: return null;
+        }
+    }
+
     private void calculateTotalCalories() {
         totalCalories = 0;
-        for (TextView txtCal : txtCalMeals) {
-            try {
-                String calText = txtCal.getText().toString();
-                if (!calText.isEmpty()) {
-                    totalCalories += Integer.parseInt(calText);
-                }
-            } catch (NumberFormatException e) {
-                Log.e(TAG, "Error parsing calorie value", e);
+        for (List<SelectedFood> foodList : selectedFoodsMap.values()) {
+            for (SelectedFood selectedFood : foodList) {
+                totalCalories += (selectedFood.getFood().getCalories() * selectedFood.getQuantity()) / 100;
             }
         }
-        txtCalTotal.setText(String.format("Tổng Calories: %d kcal", totalCalories));
+
+        txtCalTotal.setText(String.format("Tổng Calories: %d/%d kcal", totalCalories, caloriesTarget));
+
+        // Change color based on goal
+        if (totalCalories > caloriesTarget) {
+            txtCalTotal.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+        } else if (totalCalories == caloriesTarget) {
+            txtCalTotal.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+        } else {
+            txtCalTotal.setTextColor(getResources().getColor(android.R.color.holo_blue_dark));
+        }
     }
 
     private void checkUserProfile(String userId) {
@@ -204,11 +367,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     }
 
                     float bmi = calculateBMI(canNang, chieuCao);
-                    int caloriesTarget = calculateCalories(canNang, chieuCao, mucTieu);
+                    caloriesTarget = calculateCalories(canNang, chieuCao, mucTieu);
 
                     txtBMI.setText(String.format("BMI: %.1f", bmi));
                     txtGoalToday.setText(String.format("Mục tiêu hôm nay: %d kcal", caloriesTarget));
                     cardBMIInfo.setVisibility(View.VISIBLE);
+                    calculateTotalCalories(); // Update total calories display with target
 
                 } catch (Exception e) {
                     Log.e(TAG, "Error processing profile data", e);
