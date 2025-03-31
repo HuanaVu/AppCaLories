@@ -15,7 +15,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.sinhvien.appcalories.models.UserProfile;
 
-public class ProfileActivity extends AppCompatActivity {
+public class  ProfileActivity extends AppCompatActivity {
 
     private EditText edtWeight, edtHeight;
     private Spinner spnGender, spnGoal;
